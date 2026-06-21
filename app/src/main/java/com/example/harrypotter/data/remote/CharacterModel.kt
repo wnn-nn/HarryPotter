@@ -7,7 +7,7 @@ data class CharacterModel(
     val actor: String,
     val image: String,
     val ancestry: String,
-    val wand: WandModel // Harus dibuat class terpisah untuk objek 'wand'
+    val wand: WandModel
 )
 
 data class WandModel(

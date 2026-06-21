@@ -24,17 +24,30 @@ fun DetailScreen(characterId: String, navController: NavController, detailViewMo
         detailViewModel.getCharacterDetail(characterId)
     }
 
+//    TopAppBar(
+//        title = { Text("Katalog Harry Potter") },
+//        colors = TopAppBarDefaults.topAppBarColors(
+//            containerColor = warnaAksen,
+//            titleContentColor = warnaKertas
+//        )
+//    )
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detail Karakter", color = warnaTinta) },
+                title = { Text("Detail Karakter",) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = warnaAksen,
+                        titleContentColor = warnaKertas
+                    ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Kembali")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Kembali",tint = warnaKertas)
                     }
                 }
             )
-        }
+        },
+        bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
         character?.let { data ->
             Column(modifier = Modifier.fillMaxSize().padding(paddingValues).padding(16.dp)) {
@@ -43,15 +56,21 @@ fun DetailScreen(characterId: String, navController: NavController, detailViewMo
                     contentDescription = data.name,
                     modifier = Modifier.fillMaxWidth().height(260.dp)
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(data.name, style = MaterialTheme.typography.headlineMedium)
+                Text("Aktor: ${data.actor}", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(16.dp))
                 Text("Asrama: ${data.house}", style = MaterialTheme.typography.titleMedium)
-                Text("Keturunan: ${data.ancestry}", style = MaterialTheme.typography.bodyLarge)
+                Text("Keturunan: ${data.ancestry}", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
                     onClick = { detailViewModel.toggleFavorite(data) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = warnaAksen,
+                        contentColor = warnaKertas
+                    )
                 ) {
                     Icon(
                         imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,

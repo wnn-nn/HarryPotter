@@ -1,6 +1,7 @@
 package com.example.harrypotter.ui.screen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -40,7 +41,9 @@ fun FavoritesScreen(navController: NavController, mainViewModel: MainViewModel) 
                 LazyColumn {
                     items(favCharacters) { fav ->
                         Card(
-                            modifier = Modifier.fillMaxWidth().padding(8.dp),
+                            modifier = Modifier.fillMaxWidth().padding(8.dp).clickable {
+                                navController.navigate("detail/${fav.id}")
+                            },
                             border = BorderStroke(1.dp, warnaTinta.copy(alpha = 0.3f)),
                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                         ) {

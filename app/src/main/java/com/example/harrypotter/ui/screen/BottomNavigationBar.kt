@@ -16,10 +16,10 @@ fun BottomNavigationBar(navController: NavController) {
 
     NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
         val navColors = NavigationBarItemDefaults.colors(
-            selectedIconColor = warnaAksen,
-            selectedTextColor = warnaAksen,
-            unselectedIconColor = warnaTinta.copy(alpha = 0.5f),
-            unselectedTextColor = warnaTinta.copy(alpha = 0.5f)
+            selectedIconColor = warnaTinta,
+            selectedTextColor = warnaTinta,
+            unselectedIconColor = warnaAksen,
+            unselectedTextColor = warnaAksen
         )
 
         NavigationBarItem(

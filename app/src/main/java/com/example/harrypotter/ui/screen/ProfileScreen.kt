@@ -39,14 +39,15 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
             Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Avatar", modifier = Modifier.size(120.dp), tint = warnaAksen)
             Spacer(modifier = Modifier.height(16.dp))
 
-            val displayUsername = currentUser?.username ?: "Wanda Fitriardi"
-            val displayEmail = currentUser?.email ?: "wanda@student.unand.ac.id"
-            val displayPhone = currentUser?.phone ?: "08123456789"
+            val displayUsername = currentUser?.username
+            val displayEmail = currentUser?.email
+            val displayPhone = currentUser?.phone
 
-            Text("Nama / User: $displayUsername", style = MaterialTheme.typography.titleLarge, color = warnaTinta)
-            Text("NIM: 2411521004", style = MaterialTheme.typography.bodyLarge, color = warnaTinta)
-            Text("Prodi: Sistem Informasi", style = MaterialTheme.typography.bodyLarge, color = warnaTinta)
-            Text("Kontak: $displayPhone | $displayEmail", style = MaterialTheme.typography.bodySmall, color = warnaTinta)
+            Text("Username: $displayUsername", style = MaterialTheme.typography.titleLarge, color = warnaTinta)
+//            Text("NIM: 2411521004", style = MaterialTheme.typography.bodyLarge, color = warnaTinta)
+//            Text("Prodi: Sistem Informasi", style = MaterialTheme.typography.bodyLarge, color = warnaTinta)
+            Text("Phone: $displayPhone" ,style = MaterialTheme.typography.titleLarge, color = warnaTinta)
+            Text("$displayEmail", style = MaterialTheme.typography.titleLarge, color = warnaTinta)
 
             Spacer(modifier = Modifier.height(32.dp))
 
