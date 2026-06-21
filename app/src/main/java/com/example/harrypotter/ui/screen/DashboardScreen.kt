@@ -10,15 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.harrypotter.viewmodel.MainViewModel
-import com.example.harrypotter.ui.screen.BottomNavigationBar
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
 import com.example.harrypotter.ui.theme.*
-import com.example.harrypotter.ui.screen.BottomNavigationBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

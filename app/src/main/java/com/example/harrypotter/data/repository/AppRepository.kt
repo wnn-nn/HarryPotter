@@ -19,9 +19,6 @@ class AppRepository(private val database: AppDatabase) {
     // Remote API Functions
     suspend fun getCharacters() = apiService.getCharacters()
     suspend fun getCharacterDetail(id: String) = apiService.getCharacterDetail(id)
-    suspend fun getCharactersByHouse(id: String) = apiService.getCharactersByHouse(id)
-    suspend fun getStudents() = apiService.getStudents()
-    suspend fun getStaff() = apiService.getStaff()
     suspend fun getSpells() = apiService.getSpells()
 
     // Local DB Room Functions

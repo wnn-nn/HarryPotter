@@ -10,15 +10,4 @@ interface HarryPotterApiService {
     @GET("api/character/{id}")
     suspend fun getCharacterDetail(@Path("id") id: String): List<CharacterModel>
 
-    @GET("api/characters/house/{house}")
-    suspend fun getCharactersByHouse(@Path("house") house: String): List<CharacterModel>
-
-    @GET("api/characters/students")
-    suspend fun getStudents(): List<CharacterModel>
-
-    @GET("api/characters/staff")
-    suspend fun getStaff(): List<CharacterModel>
-
-    @GET("api/spells")
-    suspend fun getSpells(): List<SpellModel>
 }

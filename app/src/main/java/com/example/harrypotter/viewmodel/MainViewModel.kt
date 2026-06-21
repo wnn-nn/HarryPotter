@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.example.harrypotter.data.repository.AppRepository
 import com.example.harrypotter.data.remote.CharacterModel
-import com.example.harrypotter.data.remote.SpellModel
 import com.example.harrypotter.data.local.AppDatabase
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -17,9 +16,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _characters = MutableStateFlow<List<CharacterModel>>(emptyList())
     val characters = _characters.asStateFlow()
-
-    private val _spells = MutableStateFlow<List<SpellModel>>(emptyList())
-    val spells = _spells.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -37,7 +33,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             _isLoading.value = true
             try {
                 _characters.value = repository.getCharacters()
-                _spells.value = repository.getSpells()
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {

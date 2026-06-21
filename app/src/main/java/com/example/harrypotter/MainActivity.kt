@@ -3,17 +3,9 @@ package com.example.harrypotter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,10 +14,7 @@ import androidx.navigation.navArgument
 import com.example.harrypotter.viewmodel.*
 import com.example.harrypotter.ui.navigation.Screen
 import com.example.harrypotter.ui.screen.*
-import com.example.harrypotter.data.repository.AppRepository
-import com.example.harrypotter.data.remote.CharacterModel
-import com.example.harrypotter.data.local.FavoriteEntity
-import com.example.harrypotter.data.local.AppDatabase
+
 
 class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()

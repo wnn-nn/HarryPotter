@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.harrypotter.viewmodel.AuthViewModel
 import com.example.harrypotter.ui.navigation.Screen
-import com.example.harrypotter.ui.screen.BottomNavigationBar
 import com.example.harrypotter.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
