@@ -12,7 +12,7 @@ import com.example.harrypotter.data.remote.CharacterModel
 import com.example.harrypotter.data.local.AppDatabase
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: AppRepository
+    private val repository = AppRepository(AppDatabase.getDatabase(application))
 
     private val _characters = MutableStateFlow<List<CharacterModel>>(emptyList())
     val characters = _characters.asStateFlow()
@@ -20,11 +20,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    val favoriteCharacters = AppDatabase.getDatabase(application).favoriteDao().getAllFavorites()
+    val favoriteCharacters = repository.getAllFavorites()
 
     init {
-        val db = AppDatabase.getDatabase(application)
-        repository = AppRepository(db)
         fetchData()
     }
 
@@ -32,7 +30,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             try {
-                _characters.value = repository.getCharacters()
+                val apiData = repository.getCharacters()
+
+                val data = apiData.filter {
+                    it.name.isNotBlank() &&
+                            it.image.isNotBlank() &&
+                            it.gender.isNotBlank() &&
+                            it.ancestry.isNotBlank() &&
+                            it.house.isNotBlank() &&
+                            it.actor.isNotBlank()
+                }
+                _characters.value = data
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {

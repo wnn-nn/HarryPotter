@@ -63,6 +63,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun updateUserProfile(updatedUser: UserEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateUser(updatedUser)
+            _currentUserProfile.value = updatedUser // Langsung update state UI
+        }
+    }
+
     fun logout() {
         viewModelScope.launch {
             sessionManager.clearSession()

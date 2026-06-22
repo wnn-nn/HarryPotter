@@ -28,4 +28,5 @@ class AppRepository(private val database: AppDatabase) {
     suspend fun removeFavorite(fav: FavoriteEntity) = database.favoriteDao().deleteFavorite(fav)
     fun getAllFavorites(): Flow<List<FavoriteEntity>> = database.favoriteDao().getAllFavorites()
     suspend fun isFavorite(id: String): Boolean = database.favoriteDao().isFavorite(id)
+    suspend fun updateUser(user: UserEntity) { database.userDao().updateUser(user) }
 }

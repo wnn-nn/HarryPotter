@@ -35,7 +35,7 @@ fun DetailScreen(characterId: String, navController: NavController, detailViewMo
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detail Karakter",) },
+                title = { Text("Detail Karakter") },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = warnaAksen,
                         titleContentColor = warnaKertas
@@ -47,7 +47,6 @@ fun DetailScreen(characterId: String, navController: NavController, detailViewMo
                 }
             )
         },
-        bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
         character?.let { data ->
             Column(modifier = Modifier.fillMaxSize().padding(paddingValues).padding(16.dp)) {
@@ -61,8 +60,9 @@ fun DetailScreen(characterId: String, navController: NavController, detailViewMo
                 Text("Aktor: ${data.actor}", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(16.dp))
                 Text("Asrama: ${data.house}", style = MaterialTheme.typography.titleMedium)
+                Text("Gender: ${data.gender}", style = MaterialTheme.typography.titleMedium)
                 Text("Keturunan: ${data.ancestry}", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
                 Button(
                     onClick = { detailViewModel.toggleFavorite(data) },

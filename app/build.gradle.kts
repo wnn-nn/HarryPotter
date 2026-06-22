@@ -83,4 +83,6 @@ dependencies {
 
     // COROUTINES (PROSES ASINKRON RINGAN)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    implementation("androidx.compose.material:material-icons-extended")
 }

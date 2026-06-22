@@ -7,6 +7,7 @@ data class CharacterModel(
     val actor: String,
     val image: String,
     val ancestry: String,
+    val gender: String,
     val wand: WandModel
 )
 

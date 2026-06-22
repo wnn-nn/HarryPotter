@@ -55,6 +55,10 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Profile.route) {
                             ProfileScreen(navController, authViewModel)
                         }
+
+                        composable(Screen.Edit.route) {
+                            EditProfileScreen(navController, authViewModel)
+                        }
                     }
                 }
             }

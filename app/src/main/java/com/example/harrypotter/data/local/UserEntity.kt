@@ -8,5 +8,9 @@ data class UserEntity(
     @PrimaryKey val username: String,
     val email: String,
     val phone: String,
-    val password: String
+    val password: String,
+    val city: String = "",
+    val province: String = "",
+    val country: String = "",
+    val imageUrl: String = ""
 )
