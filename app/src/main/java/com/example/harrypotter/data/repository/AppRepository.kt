@@ -29,4 +29,9 @@ class AppRepository(private val database: AppDatabase) {
     fun getAllFavorites(): Flow<List<FavoriteEntity>> = database.favoriteDao().getAllFavorites()
     suspend fun isFavorite(id: String): Boolean = database.favoriteDao().isFavorite(id)
     suspend fun updateUser(user: UserEntity) { database.userDao().updateUser(user) }
+
+    suspend fun login(username: String, pass: String): UserEntity? {
+        val user = database.userDao().getUserByUsername(username)
+        return if (user != null && user.password == pass) user else null
+    }
 }

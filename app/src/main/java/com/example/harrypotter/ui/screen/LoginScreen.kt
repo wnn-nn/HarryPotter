@@ -17,12 +17,14 @@ import com.example.harrypotter.ui.component.CustomTextField
 
 @Composable
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
-    // Variabel untuk menyimpan ketikan user di kolom input
+    // 1. Variabel state untuk menyimpan inputan dan pesan
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var infoMessage by remember { mutableStateOf("") } // <-- INI YANG TERLEWAT!
 
     // Memantau apakah proses login berhasil dari ViewModel
     val loginSuccess by authViewModel.loginSuccess.collectAsState()
+    val errorMessage by authViewModel.errorMessage.collectAsState()
 
     // Jika loginSuccess berubah menjadi true, otomatis pindah ke Dashboard
     LaunchedEffect(loginSuccess) {
@@ -33,6 +35,14 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
         }
     }
 
+    // Menangkap pesan error dari ViewModel
+    LaunchedEffect(errorMessage) {
+        if (errorMessage.isNotEmpty()) {
+            infoMessage = errorMessage
+        }
+    }
+
+    // Semua tampilan visual dimasukkan ke dalam Column agar rapi ke bawah
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
         verticalArrangement = Arrangement.Center,
@@ -54,7 +64,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Input untuk Password (huruf akan disensor karena isPassword = true)
+        // Input untuk Password
         CustomTextField(
             value = password,
             onValueChange = { password = it },
@@ -62,7 +72,17 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
             isPassword = true
         )
         Spacer(modifier = Modifier.height(24.dp))
-        // Tombol Login
+
+        // 2. Menampilkan teks error merah (sekarang posisinya aman di dalam Column)
+        if (infoMessage.isNotEmpty()) {
+            Text(
+                text = infoMessage,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        // Tombol Masuk
         Button(
             onClick = { authViewModel.login(username, password) },
             modifier = Modifier.fillMaxWidth(),
@@ -74,7 +94,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
             Text("Masuk", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         }
 
-        // Teks yang bisa diklik untuk menuju layar pendaftaran
+        // Teks pendaftaran
         TextButton(onClick = { navController.navigate(Screen.SignUp.route) }) {
             Text("Belum punya akun? Buat di sini", color = warnaTinta)
         }

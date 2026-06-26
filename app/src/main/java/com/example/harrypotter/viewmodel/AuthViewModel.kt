@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.harrypotter.data.repository.AppRepository
 import com.example.harrypotter.data.session.SessionManager
@@ -20,7 +21,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     val isLoggedIn = _isLoggedIn.asStateFlow()
 
     private val _loginSuccess = MutableStateFlow(false)
-    val loginSuccess = _loginSuccess.asStateFlow()
+    val loginSuccess: StateFlow<Boolean> = _loginSuccess
+
+    private val _errorMessage = MutableStateFlow("")
+    val errorMessage: StateFlow<String> = _errorMessage
 
     private val _currentUserProfile = MutableStateFlow<UserEntity?>(null)
     val currentUserProfile = _currentUserProfile.asStateFlow()
@@ -46,12 +50,21 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun login(username: String, password: CharSequence) {
+    fun login(username: String, pass: String) {
+        _errorMessage.value = ""
+        if (username.isBlank() || pass.isBlank()) {
+            _errorMessage.value = "Username dan Password tidak boleh kosong!"
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            val user = repository.getUser(username)
-            if (user != null && user.password == password) {
-                sessionManager.saveSession(username)
+            val user = repository.login(username, pass)
+            if (user != null) {
+                sessionManager.saveSession(user.username)
                 _loginSuccess.value = true
+                _errorMessage.value = ""
+            } else {
+                _loginSuccess.value = false
+                _errorMessage.value = "Username atau password salah!"
             }
         }
     }

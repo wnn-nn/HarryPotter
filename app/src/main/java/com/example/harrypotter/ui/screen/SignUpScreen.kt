@@ -38,7 +38,7 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel) {
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Rentetan input pendaftaran menggunakan komponen Custom buatan sendiri
+        // Rentetan input pendaftaran menggunakan komponen Custom
         CustomTextField(value = username, onValueChange = { username = it }, label = "Username")
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -49,19 +49,35 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         CustomTextField(value = password, onValueChange = { password = it }, label = "Password", isPassword = true)
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp)) // Jarak disesuaikan agar rapi
+
+        // 1. Teks Error dipindah ke sini (tepat di atas tombol, persis seperti LoginScreen)
+        if (infoMessage.isNotEmpty()) {
+            Text(
+                text = infoMessage,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
 
         // Tombol Daftar
         Button(
             onClick = {
-                // Validasi: Pastikan tidak ada kolom yang dibiarkan kosong
-                if (username.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty() && password.isNotEmpty()) {
+                // 2. Validasi: isNotBlank memastikan spasi kosong tidak dihitung sebagai ketikan
+                if (username.isNotBlank() && email.isNotBlank() && phone.isNotBlank() && password.isNotBlank()) {
+
+                    infoMessage = "" // Kosongkan error jika berhasil
+
                     // Menyimpan data ke Database Lokal (Room)
                     authViewModel.registerUser(UserEntity(username, email, phone, password))
+
                     // Kembali ke halaman Login setelah sukses mendaftar
-                    navController.navigate(Screen.Login.route)
+                    navController.navigate(Screen.Login.route) {
+                        // Bersihkan tumpukan halaman agar tidak menumpuk saat di-back
+                        popUpTo(Screen.SignUp.route) { inclusive = true }
+                    }
                 } else {
-                    infoMessage = "Kolom tidak boleh kosong!"
+                    infoMessage = "Semua kolom tidak boleh ada yang kosong!"
                 }
             },
             modifier = Modifier.fillMaxWidth(),
@@ -70,20 +86,11 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel) {
             Text("Daftar", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         }
 
-        // Menampilkan pesan error (hanya muncul jika infoMessage tidak kosong)
-        if (infoMessage.isNotEmpty()) {
-            Text(
-                text = infoMessage,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Teks untuk kembali ke Login jika sudah punya akun
         TextButton(onClick = { navController.navigate(Screen.Login.route) }) {
-            Text("Sudah punya peta? Masuk di sini", color = warnaTinta)
+            Text("Sudah punya akun? Masuk di sini", color = warnaTinta)
         }
     }
 }
