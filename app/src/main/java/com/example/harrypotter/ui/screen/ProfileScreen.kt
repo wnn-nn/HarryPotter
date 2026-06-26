@@ -19,15 +19,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+
 import com.example.harrypotter.viewmodel.AuthViewModel
 import com.example.harrypotter.ui.navigation.Screen
 import com.example.harrypotter.ui.theme.*
+import com.example.harrypotter.ui.component.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
+    // Mengambil profil pengguna yang sedang login saat ini
     val currentUser by authViewModel.currentUserProfile.collectAsState()
 
+    // Mempersiapkan variabel teks untuk ditampilkan. Jika null, ubah menjadi string kosong ("")
     val displayUsername = currentUser?.username ?: ""
     val displayEmail = currentUser?.email ?: ""
     val displayPhone = currentUser?.phone ?: ""
@@ -38,13 +42,8 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Profil Akun") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = warnaAksen,
-                    titleContentColor = warnaKertas,
-                    actionIconContentColor = warnaKertas
-                ),
+            CustomTopAppBar(
+                title = "Profil Akun",
                 actions = {
                     IconButton(onClick = { navController.navigate(Screen.Edit.route) }) {
                         Icon(Icons.Default.Edit, contentDescription = "Edit Profil")
@@ -54,6 +53,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
         },
         bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
+        // Column dibungkus dengan verticalScroll agar halaman bisa di-scroll jika layar HP kecil
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,7 +64,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
         ) {
             Spacer(modifier = Modifier.height(24.dp))
 
-            // --- FOTO PROFIL (Read-Only) ---
+            // Box untuk menampilkan bingkai Foto Profil
             Box(
                 modifier = Modifier
                     .size(120.dp)
@@ -73,38 +73,44 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
                     .border(2.dp, warnaAksen, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
+                // Jika url foto tidak kosong, tampilkan gambar
                 if (!displayImageUrl.isNullOrEmpty()) {
                     AsyncImage(
                         model = displayImageUrl,
                         contentDescription = "Foto Profil",
                         modifier = Modifier.fillMaxSize().clip(CircleShape),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop // Memotong paksa gambar jadi bulat
                     )
                 } else {
+                    // Jika belum ada foto, tampilkan ikon orang standar (default)
                     Icon(Icons.Default.Person, contentDescription = "Default", modifier = Modifier.size(80.dp), tint = warnaTinta.copy(alpha = 0.5f))
                 }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            OutlinedTextField(value = displayUsername, onValueChange = {}, label = { Text("Username") }, readOnly = true, enabled = false, modifier = Modifier.fillMaxWidth())
+            // Menggunakan CustomTextField dengan isReadOnly = true agar tidak bisa diedit di layar ini
+            CustomTextField(value = displayUsername, onValueChange = {}, label = "Username", isReadOnly = true)
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(value = displayEmail, onValueChange = {}, label = { Text("Email") }, readOnly = true, enabled = false, modifier = Modifier.fillMaxWidth())
+            CustomTextField(value = displayEmail, onValueChange = {}, label = "Email", isReadOnly = true)
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(value = displayPhone, onValueChange = {}, label = { Text("Nomor HP") }, readOnly = true, enabled = false, modifier = Modifier.fillMaxWidth())
+            CustomTextField(value = displayPhone, onValueChange = {}, label = "Nomor HP", isReadOnly = true)
 
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(value = displayCity, onValueChange = {}, label = { Text("Kota") }, readOnly = true, enabled = false, modifier = Modifier.fillMaxWidth())
+            CustomTextField(value = displayCity, onValueChange = {}, label = "Kota", isReadOnly = true)
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(value = displayProvince, onValueChange = {}, label = { Text("Provinsi") }, readOnly = true, enabled = false, modifier = Modifier.fillMaxWidth())
+            CustomTextField(value = displayProvince, onValueChange = {}, label = "Provinsi", isReadOnly = true)
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(value = displayCountry, onValueChange = {}, label = { Text("Negara") }, readOnly = true, enabled = false, modifier = Modifier.fillMaxWidth())
+            CustomTextField(value = displayCountry, onValueChange = {}, label = "Negara", isReadOnly = true)
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            // Tombol Logout
             Button(
                 onClick = {
+                    // Membersihkan sesi login (misalnya DataStore)
                     authViewModel.logout()
+                    // Pindah ke layar Login dan hapus seluruh tumpukan layar sebelumnya
                     navController.navigate(Screen.Login.route) { popUpTo(Screen.Dashboard.route) { inclusive = true } }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
