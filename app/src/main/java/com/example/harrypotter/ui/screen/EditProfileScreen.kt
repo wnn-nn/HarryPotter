@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -56,7 +57,7 @@ fun EditProfileScreen(navController: NavController, authViewModel: AuthViewModel
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Detail Karakter",
+                title = "Edit Profil",
                 showBackButton = true,
                 onBackClick = { navController.popBackStack() }
             )
@@ -74,7 +75,7 @@ fun EditProfileScreen(navController: NavController, authViewModel: AuthViewModel
 
             // Area Foto Profil yang bisa di-klik untuk membuka Galeri
             Box(
-                modifier = Modifier.size(130.dp),
+                modifier = Modifier.size(140.dp), // Sedikit diperbesar agar ruang tombolnya pas
                 contentAlignment = Alignment.Center
             ) {
                 // Lingkaran foto utama
@@ -84,7 +85,7 @@ fun EditProfileScreen(navController: NavController, authViewModel: AuthViewModel
                         .clip(CircleShape)
                         .background(warnaTinta.copy(alpha = 0.1f))
                         .border(2.dp, warnaAksen, CircleShape)
-                        .clickable { launcher.launch("image/*") }, // Memanggil launcher galeri saat di-klik
+                        .clickable { launcher.launch("image/*") },
                     contentAlignment = Alignment.Center
                 ) {
                     if (imageUri != null) {
@@ -95,21 +96,44 @@ fun EditProfileScreen(navController: NavController, authViewModel: AuthViewModel
                             contentScale = ContentScale.Crop
                         )
                     } else {
-                        Icon(Icons.Default.Person, contentDescription = "Default", modifier = Modifier.size(80.dp), tint = warnaTinta.copy(alpha = 0.5f))
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Default",
+                            modifier = Modifier.size(80.dp),
+                            tint = warnaTinta.copy(alpha = 0.5f)
+                        )
                     }
                 }
 
-                // Ikon kamera kecil di pojok kanan bawah
+                // Ikon kamera kecil di pojok kanan bawah (Untuk Ganti Foto)
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .offset(x = (-4).dp, y = (-4).dp)
                         .background(warnaAksen, CircleShape)
                         .border(2.dp, warnaKertas, CircleShape)
-                        .clickable { launcher.launch("image/*") } // Juga membuka galeri
+                        .clickable { launcher.launch("image/*") }
                         .padding(8.dp)
                 ) {
                     Icon(Icons.Default.CameraAlt, contentDescription = "Ganti", tint = warnaKertas, modifier = Modifier.size(18.dp))
+                }
+
+                // Ikon Hapus (Hanya muncul jika ada foto) di pojok kanan atas
+                if (imageUri != null) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .offset(x = (-4).dp, y = 4.dp)
+                            .background(MaterialTheme.colorScheme.error, CircleShape) // Warna merah bawaan tema
+                            .border(2.dp, warnaKertas, CircleShape)
+                            .clickable {
+                                // Kosongkan nilai Uri saat diklik
+                                imageUri = null
+                            }
+                            .padding(8.dp)
+                    ) {
+                        Icon(Icons.Default.Delete, contentDescription = "Hapus", tint = warnaKertas, modifier = Modifier.size(16.dp))
+                    }
                 }
             }
 

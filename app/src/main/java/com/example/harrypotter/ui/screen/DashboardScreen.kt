@@ -14,7 +14,6 @@ import com.example.harrypotter.viewmodel.MainViewModel
 import com.example.harrypotter.ui.theme.*
 import com.example.harrypotter.ui.component.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
     // Variabel untuk menyimpan teks pencarian

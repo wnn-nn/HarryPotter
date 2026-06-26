@@ -25,7 +25,6 @@ import com.example.harrypotter.ui.navigation.Screen
 import com.example.harrypotter.ui.theme.*
 import com.example.harrypotter.ui.component.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
     // Mengambil profil pengguna yang sedang login saat ini
@@ -43,7 +42,7 @@ fun ProfileScreen(navController: NavController, authViewModel: AuthViewModel) {
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = "Profil Akun",
+                title = "Akun Profil",
                 actions = {
                     IconButton(onClick = { navController.navigate(Screen.Edit.route) }) {
                         Icon(Icons.Default.Edit, contentDescription = "Edit Profil")

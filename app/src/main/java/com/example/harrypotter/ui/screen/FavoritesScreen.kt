@@ -23,7 +23,7 @@ fun FavoritesScreen(navController: NavController, mainViewModel: MainViewModel) 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Karakter Favorit Anda") },
+                title = { Text("Karakter Favorit") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = warnaAksen,
                     titleContentColor = warnaKertas
